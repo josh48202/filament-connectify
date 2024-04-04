@@ -1,0 +1,38 @@
+{
+    "name": "wjbecker/filament-connectify",
+    "description": "Filament OAuth",
+    "keywords": [
+        "laravel", "filament", "oauth"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Wjbecker\\FilamentConnectify\\": "src/"
+        }
+    },
+    "extra" : {
+        "laravel" : {
+            "providers" : [
+                "Wjbecker\\FilamentConnectify\\FilamentConnectifyServiceProvider"
+            ],
+            "aliases": {
+                "FilamentConnectify": "Wjbecker\\FilamentConnectify\\Facades\\FilamentConnectify"
+            }
+        }
+    },
+    "authors": [
+        {
+            "name": "Josh Becker",
+            "email": "josh48202@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php" : "^8.0",
+        "spatie/laravel-package-tools": "^1.0|^1.13",
+        "owenvoke/blade-fontawesome": "*",
+        "laravel/socialite": "^5.12"
+    }
+}
