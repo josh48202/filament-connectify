@@ -1,6 +1,6 @@
 {
     "name": "wjbecker/filament-connectify",
-    "description": "Filament OAuth",
+    "description": "Filament Connectify - Social Login through Laravel Socialite",
     "keywords": [
         "laravel", "filament", "oauth"
     ],
