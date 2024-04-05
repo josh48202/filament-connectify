@@ -15,17 +15,16 @@ class FilamentConnectifyPlugin implements Plugin
 
     protected string $redirectRoute;
 
-    protected array $tenantAllowList = [];
-
     protected string $loginRoute;
 
     protected string $userModel = User::class;
 
     protected ?Closure $redirectUrlCallback;
 
-    protected ?Closure $tenantAllowedCallback;
+    protected ?Closure $isAllowedCallback;
 
     private string $callbackRoute;
+
 
     public static function make(): static
     {
@@ -103,22 +102,11 @@ class FilamentConnectifyPlugin implements Plugin
         };
     }
 
-    public function getTenantAllowedCallback(): Closure
+    public function getIsAllowedCallback(): Closure
     {
-        return $this->tenantAllowedCallback ?? function ($socialiteUser) {
-            $tenants = $this->getTenantAllowList();
-
-            if (empty($tenants)) return true;
-
-            $decodedToken = json_decode(base64_decode(str_replace('_', '/', str_replace('-','+',explode('.', $socialiteUser->token)[1]))));
-
-            return in_array($decodedToken->tid, $tenants);
+        return $this->isAllowedCallback ?? function ($socialiteUser) {
+            return true;
         };
-    }
-
-    public function getTenantAllowList(): array
-    {
-        return $this->tenantAllowList;
     }
 
     public function getUserModel(): string
@@ -133,16 +121,9 @@ class FilamentConnectifyPlugin implements Plugin
         return $this;
     }
 
-    public function tenantAllowedCallback(Closure $callback = null): static
+    public function isAllowedCallback(Closure $callback = null): static
     {
-        $this->tenantAllowedCallback = $callback;
-
-        return $this;
-    }
-
-    public function tenants(array $tenants): static
-    {
-        $this->tenantAllowList = $tenants;
+        $this->isAllowedCallback = $callback;
 
         return $this;
     }

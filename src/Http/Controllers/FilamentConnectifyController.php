@@ -2,7 +2,6 @@
 
 namespace Wjbecker\FilamentConnectify\Http\Controllers;
 
-use Filament\Facades\Filament;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
@@ -31,7 +30,7 @@ class FilamentConnectifyController extends Controller
         /** @var User $socialite */
         $socialite = Socialite::driver($provider)->stateless()->user();
 
-        if (!$this->isTenantAllowed($socialite)) {
+        if (!$this->isAllowed($socialite)) {
             session()->flash('filament.connectify.login.error', 'Tenant is not allowed.');
             return redirect()->route(FilamentConnectifyPlugin::get()->getLoginRoute());
         }
@@ -65,9 +64,9 @@ class FilamentConnectifyController extends Controller
         return redirect()->route(FilamentConnectifyPlugin::get()->getLoginRoute());
     }
 
-    private function isTenantAllowed($socialiteUser)
+    private function isAllowed($socialiteUser)
     {
-        return app()->call(FilamentConnectifyPlugin::get()->getTenantAllowedCallback(), ['socialiteUser' => $socialiteUser]);
+        return app()->call(FilamentConnectifyPlugin::get()->getIsAllowedCallback(), ['socialiteUser' => $socialiteUser]);
     }
 
     private function redirectUrl($provider)
